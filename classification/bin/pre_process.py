@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------#
 #																		#
 #	python script for data pre-process									#
-#	sample usage: pre-process.py [input] [output1] [output2]			#
+#	sample usage: pre-process.py [input1] [input2] [output1] [output2]	#
 #	input:	input document, a corpus									#
 #	output1:test corpus, default to be 33% randomly assigned corpus		#
 #	output2:train corpus, default to be 67% randomly assigned corpus	#
@@ -44,7 +44,7 @@ if __name__ == "__main__":
 
 	for line in sent_tokenize_list:
 		sz += 1
-		sys.stdout.write("%d%%\r" % (sz / float(len(sent_tokenize_list)) * 100))
+		sys.stdout.write("%d%%\r" % (sz / float(len(sent_tokenize_list)) * 50))
 		temp = ""
 		for word in line.translate(table).split():
 			if word not in stopWords:
@@ -55,11 +55,12 @@ if __name__ == "__main__":
 
 			if count <= proportion*len(sent_tokenize_list) and ran==1:
 				count+=1
-				out.write('0 ' +temp+'\n')
+				out.write('-1 ' +temp+'\n')
 			
 			else:
-				out2.write('0 ' +temp+"\n")
+				out2.write('-1 ' +temp+"\n")
 
+	sz = 0
 	data = inp2.read()
 	sent_tokenize_list = sent_tokenize(unicode(data, errors='ignore'))
 	stopWords = set(stopwords.words('english'))
@@ -67,7 +68,7 @@ if __name__ == "__main__":
 
 	for line in sent_tokenize_list:
 		sz += 1
-		sys.stdout.write("%d%%\r" % (sz / float(len(sent_tokenize_list)) * 100))
+		sys.stdout.write("%d%%\r" % (sz / float(len(sent_tokenize_list)) * 50+50))
 		temp = ""
 		for word in line.translate(table).split():
 			if word not in stopWords:

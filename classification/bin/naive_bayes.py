@@ -1,9 +1,9 @@
 #-----------------------------------------------------------------------#
 #																		#
 #	python script for Naive Bayes with tf-idf							#
-#	sample usage: naive_bayes.py [train1] [train2] [test1] [test2]		#
-#	train1, train2:	training document with different labels				#
-#	test1, test2: testing documents from class1 and class2				#
+#	sample usage: naive_bayes.py [train] [test]							#
+#	train:	training document with different labels						#
+#	test: testing documents from class1 and class2						#
 #	Use sklearn's build-in naive bayes Multinomial implementation		#
 #																		#
 #	All rights reserved by Yipeng Zhang									#
@@ -22,29 +22,30 @@ if __name__ == "__main__":
 	target = []	
 	test = []
 	res = []
-	sz1 = 0
-	sz2 = 0
-	
-	inp = sys.argv[1]
-	for line in open(inp):
-		data.append(line)
-		target.append(1)
+	sz1 = sz2  = 0
 
-	inp = sys.argv[2]
-	for line in open(inp):
-		data.append(line)
-		target.append(0)
-	outp = sys.argv[3]
-	for line in open(outp):
-		test.append(line)
-		res.append(1)
-		sz1 += 1
+	train_file = sys.argv[1]
+	for line in open(train_file):
+		ind = line.index(' ')
+		prefix = line[:ind]
+		data.append(line[ind:])
+		if prefix == '1':
+			target.append(1)
+		else:
+			target.append(-1)
+		
 	
-	outp = sys.argv[4]
-	for line in open(outp):
-		test.append(line)
-		res.append(0)
-		sz2 += 1
+	test_file = sys.argv[2]
+	for line in open(test_file):
+		ind = line.index(' ')
+		prefix = line[:ind]
+		test.append(line[ind:])
+		if prefix == '1':
+			sz1 += 1
+			res.append(1)
+		else:
+			sz2 += 1
+			res.append(-1)	
 
 	count_vect = CountVectorizer()
 	X_train_counts = count_vect.fit_transform(data)
@@ -61,12 +62,13 @@ if __name__ == "__main__":
 	for i in range(0,len(predicted)):
 		if predicted[i]==res[i] and res[i]==1:
 			cor1 += 1
-		if predicted[i]==res[i] and res[i]==0:
+		if predicted[i]==res[i] and res[i]==-1:
 			cor2 += 1
 	
+	print(predicted)
 	print("==================================================")
 	print("Current Algorithm: Naive Bayes with tf-idf")
 	print("Accuracy for article 1: "+str(100*float(cor1)/sz1)+"%")
-	print("acc1: "+str(cor1)+" sz1: "+str(sz1))
 	print("Accuracy for article 2: "+str(100*float(cor2)/sz2)+"%")
-	print("acc2: "+str(cor2)+" sz2: "+str(sz2))
+	print("Overall Accuracy: "+str(100*float(cor2+cor1)/(sz1+sz2))+"%")
+	
