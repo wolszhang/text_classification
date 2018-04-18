@@ -1,20 +1,10 @@
-#-----------------------------------------------------------------------#
-#																		#
-#	python script for Naive Bayes with tf-idf							#
-#	sample usage: naive_bayes.py [train] [test]							#
-#	train:	training document with different labels						#
-#	test: testing documents from class1 and class2						#
-#	Use sklearn's build-in naive bayes Multinomial implementation		#
-#																		#
-#	All rights reserved by Yipeng Zhang									#
-#-----------------------------------------------------------------------#
-
+# coding: utf-8
 from __future__ import division
+
 import struct
 import sys
 import cPickle
 import math
-
 
 def euclideanDistance(instance1, instance2, length):
 	distance = 0
@@ -31,8 +21,12 @@ if __name__ == "__main__":
 	
 	print(len(vec))
 	while(True):
+		'''
 		nn = int(raw_input("number of neighbors: "))
 		word = raw_input("query word: ")
+		'''
+		word = "happy"
+		nn = 4
 
 		if '\n'+word not in vec:
 			print("word "+ word+ " not found")
@@ -47,3 +41,4 @@ if __name__ == "__main__":
 		for x in range(nn):
 			neighbors.append(dist_dic[x])
 			print(dist_dic[x])
+		break
