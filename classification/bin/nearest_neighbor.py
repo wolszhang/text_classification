@@ -1,10 +1,20 @@
-# coding: utf-8
-from __future__ import division
+#-----------------------------------------------------------------------#
+#																		#
+#	python script for Naive Bayes with tf-idf							#
+#	sample usage: naive_bayes.py [train] [test]							#
+#	train:	training document with different labels						#
+#	test: testing documents from class1 and class2						#
+#	Use sklearn's build-in naive bayes Multinomial implementation		#
+#																		#
+#	All rights reserved by Yipeng Zhang									#
+#-----------------------------------------------------------------------#
 
+from __future__ import division
 import struct
 import sys
 import cPickle
 import math
+
 
 def euclideanDistance(instance1, instance2, length):
 	distance = 0
